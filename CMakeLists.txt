@@ -15,7 +15,8 @@ include_directories(${SFML_HEADER_PATH})
 
 set(SOURCE_FILES
         main.cpp
-        shapes.cpp)
+        shapes.cpp
+        Gobang.cpp)
 add_executable(sfml_learn ${SOURCE_FILES})
 target_link_libraries(sfml_learn
         ${SFML_LIB_PATH}/libsfml-window.2.4.2.dylib
