@@ -1,13 +1,37 @@
 #include "game.h"
+#include "unistd.h"
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <string>
+
 
 Game::Game():window(sf::VideoMode(860,640),"Plane Game"),player(window),speed(300.f),fps(60),rotateSpeed(180.f)
 {
     player.setOrigin(player.getTextureRect().width/2,player.getTextureRect().height/2);
     player.setScale(2.f,2.f);
     player.setPosition(window.getSize().x/2.f,window.getPosition().y/2.f);
+
+    // 初始化时间显示
+    if (!font.loadFromFile("../plane/resources/Thonburi.ttc"))
+    {
+        std::cerr<<"load font error"<<std::endl;
+        exit(-1);
+    }
+    times.setFont(font);
+    times.setCharacterSize(24);
+    times.setFillColor(sf::Color::Magenta);
+    times.setStyle(sf::Text::Bold);
+    times.setString("00.00");
+    times.setPosition(20,20);
+
+    // 初始化游戏背景音乐
+    if (!bgMusicBuffer.loadFromFile("../plane/resources/plane.ogg"))
+    {
+        std::cerr<<"load music error"<<std::endl;
+        exit(-2);
+    }
+    bgMusic.setBuffer(bgMusicBuffer);
 }
 
 void Game::Run()
@@ -15,7 +39,9 @@ void Game::Run()
     sf::Clock clock;
     sf::Time timeSinceLastUpdate=sf::Time::Zero;
 
-    std::cout<<bullets.size()<<std::endl;
+    bgMusic.resetBuffer();
+    bgMusic.setBuffer(bgMusicBuffer);
+    bgMusic.play();
 
     while (window.isOpen())
     {
@@ -30,9 +56,24 @@ void Game::Run()
             Update(timePerFrame);
         }
         Render();
-        if (isOver) break;
+        if (isOver)
+        {
+            bgMusic.pause();
+            sleep(3);
+            Restart();
+        }
 
     }
+}
+
+void Game::Restart()
+{
+    times.setString("00.00");
+    player.setPosition(window.getSize().x/2.f,window.getPosition().y/2.f);
+    window.clear();
+    isOver=false;
+    bullets.clear();
+    Run();
 }
 
 void Game::ProcessEvents()
@@ -62,7 +103,18 @@ void Game::Update(sf::Time interval)
     //产生子弹
     if (rand()%20 >= 18) GenerateBullets();
 
+    //更新时间
+    auto t = (std::string)times.getString();
 
+    auto sec =  std::stoi(t.substr(0,t.find(".")));
+    auto millsec = std::stoi(t.substr(t.find(".")+1));
+    millsec += interval.asMilliseconds()/10.f;
+    while (millsec >= 100)
+    {
+        millsec -= 100;
+        sec += 1;
+    }
+    times.setString(std::to_string(sec)+"."+std::to_string(millsec));
 
     //update bullets
     for (auto it = bullets.begin();it!=bullets.end();)
@@ -102,6 +154,7 @@ void Game::Render()
         window.draw(item);
     }
 
+    window.draw(times);
     window.display();
 }
 

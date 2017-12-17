@@ -2,6 +2,7 @@
 #define LEWIS_GAME_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include "components.h"
 
@@ -11,6 +12,7 @@ class Game
 public:
     Game();
     void Run();
+    void Restart();
 
 private:
     void ProcessEvents();
@@ -20,14 +22,17 @@ private:
     void GenerateBullets();
 
     sf::RenderWindow window;
+    Plane player;
+    std::vector<Bullet> bullets;
+    sf::Text times;
+    sf::Font font;
+    sf::Sound bgMusic;
+    sf::SoundBuffer bgMusicBuffer;
 
 
     float speed;
     float rotateSpeed;
     size_t fps;
-
-    std::vector<Bullet> bullets;
-    Plane player;
     bool isOver;
 
     void HandlePlayerInput(sf::Keyboard::Key k,bool isPressed);

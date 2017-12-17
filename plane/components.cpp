@@ -73,7 +73,7 @@ bool Bullet::isCollide(const Plane &plane)
 */
 Plane::Plane(sf::RenderTarget &window):target(window)
 {
-    if (!texture.loadFromFile("/Users/nirvana/Downloads/weixinfeiji/image/enemy1_fly_1.png"))
+    if (!texture.loadFromFile("../plane/resources/plane.png"))
     {
         std::cerr<<"Plane resource Init error!"<<std::endl;
         exit(1);

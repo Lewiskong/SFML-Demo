@@ -27,7 +27,8 @@ add_executable(plane_game ${PLANE_SOURCE_FILES})
 target_link_libraries(plane_game
         ${SFML_LIB_PATH}/libsfml-window.2.4.2.dylib
         ${SFML_LIB_PATH}/libsfml-system.2.4.2.dylib
-        ${SFML_LIB_PATH}/libsfml-graphics.2.4.2.dylib)
+        ${SFML_LIB_PATH}/libsfml-graphics.2.4.2.dylib
+        ${SFML_LIB_PATH}/libsfml-audio.2.4.2.dylib)
 
 
 
