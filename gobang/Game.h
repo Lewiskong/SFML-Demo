@@ -1,4 +1,4 @@
-#ifndef LEIWS_GOBANG_H
+#ifndef LEWIS_GOBANG_H
 #define LEWIS_GOBANG_H
 
 #include <SFML/System.hpp>
@@ -17,6 +17,8 @@ public:
     void ProcessEvent();
     void Update();
     void Render();
+
+    void PutChessPiece(sf::Vector2i pos);
 
 private:
     void InitGame();

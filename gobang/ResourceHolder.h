@@ -13,7 +13,9 @@ public:
     ResourceHolder();
     static enum class ResourceId
     {
-        REOUSRCE_CEHSSBOARD
+        RESOURCE_CHESSBOARD,
+        RESOURCE_WHITE_CHESS,
+        RESOURCE_BLACK_CHESS
     };
 
     void LoadTexture(ResourceHolder::ResourceId id , const std::string &name);
