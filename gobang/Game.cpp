@@ -16,6 +16,8 @@ Game::Game():window(sf::VideoMode(860,860),"Gobang Game"),board(16,16,holder)
 
 void Game::Run()
 {
+    board.myChesspiece = gobang::BlackChess;
+    window.setFramerateLimit(30);
     while (window.isOpen())
     {
         ProcessEvent();
@@ -63,20 +65,25 @@ void Game::InitGame() {
 
 
 void Game::PutChessPiece(sf::Vector2i pos) {
-    auto ret = board.Put(pos,GobangChessPiece::ChessType::BlackChess);
-    if (ret==board.Win)
-    {
+    auto ret = board.Put(pos);
 
+    switch (ret)
+    {
+        case gobang::Win:
+            exit(1);
+            break;
+        case gobang::PutSucceed:
+            // 更换棋子颜色
+            if (board.myChesspiece == gobang::BlackChess) board.myChesspiece = gobang::WhiteChess;
+            else board.myChesspiece=gobang::BlackChess;
+
+            break;
+        case gobang::PutFail:
+            break;
+        default:
+            break;
     }
-//    switch (ret)
-//    {
-//        case board.Win:
-//        std::cout<<"suc"<<std::endl;
-//            break;
-//        default:
-//            break;
-//
-//    }
+
 }
 
 

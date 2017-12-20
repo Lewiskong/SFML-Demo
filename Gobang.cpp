@@ -12,8 +12,6 @@ void Gobang::InitBoard()
     auto width=uint(window.getSize().x * this->percent);
     auto height=uint(window.getSize().y * this->percent);
 
-    std::cout<<width<<" "<<height<<std::endl;
-
     std::vector<sf::Vertex> lines;
     for (size_t index=0;index<=size;index++)
     {
@@ -26,11 +24,6 @@ void Gobang::InitBoard()
         auto VStartPoint = sf::Vector2f(1.0f * index / size * width * percent + hPadding, 0 + vPadding);
         auto VEndPoint = sf::Vector2f(1.0f * index / size * width * percent + hPadding,
                                       1 * height * percent + vPadding);
-
-        if (index==0)
-        {
-            std::cout<<HEndPoint.x;
-        }
 
         lines.push_back(sf::Vertex(HStartPoint));
         lines.push_back(sf::Vertex(HEndPoint));

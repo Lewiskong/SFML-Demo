@@ -59,7 +59,6 @@ void Game::Run()
         if (isOver)
         {
             bgMusic.pause();
-            sleep(3);
             Restart();
         }
 
@@ -192,8 +191,8 @@ void Game::HandlePlayerInput(sf::Keyboard::Key k, bool isPressed)
 
 void Game::GenerateBullets()
 {
-//    float size = rand()%3 + 1.f;
-    float size = 2.f;
+    float size = rand()%5 + 1.f;
+//    float size = 2.f;
 
     // 为了整洁，暂时忽略效率影响
     auto rd = [](uint val)->float{

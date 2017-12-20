@@ -8,28 +8,35 @@
 
 class GobangBoard;
 
-class GobangChessPiece : public sf::Drawable,public sf::Transformable
-{
-public:
+namespace gobang{
     enum ChessType{
         NoChess,
         BlackChess,
         WhiteChess
     };
+    enum PutState {
+        Win,
+        PutFail,
+        PutSucceed
+    };
+}
+
+class GobangChessPiece : public sf::Drawable,public sf::Transformable
+{
 public:
 
     GobangChessPiece(sf::Vector2f pos, GobangBoard &board, int index = 0,
-                     GobangChessPiece::ChessType type = GobangChessPiece::ChessType::NoChess);
+                     gobang::ChessType type = gobang::ChessType::NoChess);
     GobangChessPiece() = default;
 
-    void setType(ChessType tp);
-    ChessType getType() {return type;}
+    void setType(gobang::ChessType tp);
+    gobang::ChessType getType() {return type;}
 
     sf::Vector2f pos;
     int index;
 private:
     sf::Sprite chesspiece;
-    GobangChessPiece::ChessType type;
+    gobang::ChessType type;
     GobangBoard &board;
 
 private:
@@ -40,19 +47,14 @@ class GobangBoard : public sf::Drawable,public sf::Transformable
 {
     friend class GobangChessPiece;
 public:
-    enum PutState {
-        Win,
-        PutFail,
-        PutSucceed
-    };
-
-public:
     GobangBoard(size_t r,size_t c,ResourceHolder &holder);
     void Init();
     void setRect(sf::Vector2f start,sf::Vector2f end);
     void setPadding(float paddingTop,float paddingLeft=0.f);
 
-    PutState Put(sf::Vector2i pos,GobangChessPiece::ChessType tp);
+    gobang::PutState Put(sf::Vector2i pos);
+
+    gobang::ChessType myChesspiece;
 
 private:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;

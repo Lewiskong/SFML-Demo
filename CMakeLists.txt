@@ -9,6 +9,7 @@ set(SFML_LIB_PATH "/usr/local/lib/SFML-2.4.2/build/lib")
 
 include_directories(${SFML_HEADER_PATH})
 
+
 #set(SOURCE_FILES
 #        main.cpp
 #        shapes.cpp
@@ -19,17 +20,33 @@ include_directories(${SFML_HEADER_PATH})
 #        ${SFML_LIB_PATH}/libsfml-system.2.4.2.dylib
 #        ${SFML_LIB_PATH}/libsfml-graphics.2.4.2.dylib)
 
-set(PLANE_SOURCE_FILES
-        plane/main.cpp
-        plane/game.cpp
-        plane/components.cpp)
-add_executable(plane_game ${PLANE_SOURCE_FILES})
-target_link_libraries(plane_game
+
+#########################################################
+#                    Plane Game                         #
+#set(PLANE_SOURCE_FILES                                 #
+#        plane/main.cpp                                 #
+#        plane/game.cpp                                 #
+#        plane/components.cpp)                          #
+#add_executable(plane_game ${PLANE_SOURCE_FILES})       #
+#target_link_libraries(plane_game                       #
+#        ${SFML_LIB_PATH}/libsfml-window.2.4.2.dylib    #
+#        ${SFML_LIB_PATH}/libsfml-system.2.4.2.dylib    #
+#        ${SFML_LIB_PATH}/libsfml-graphics.2.4.2.dylib  #
+#        ${SFML_LIB_PATH}/libsfml-audio.2.4.2.dylib)    #
+#########################################################
+
+
+set(GOBANG_SOURCE_FILES
+        gobang/main.cpp
+        gobang/Game.cpp
+        gobang/ResourceHolder.cpp
+        gobang/GobangBoard.cpp)
+add_executable(gobang ${GOBANG_SOURCE_FILES})
+target_link_libraries(gobang
         ${SFML_LIB_PATH}/libsfml-window.2.4.2.dylib
         ${SFML_LIB_PATH}/libsfml-system.2.4.2.dylib
         ${SFML_LIB_PATH}/libsfml-graphics.2.4.2.dylib
         ${SFML_LIB_PATH}/libsfml-audio.2.4.2.dylib)
-
 
 
 
