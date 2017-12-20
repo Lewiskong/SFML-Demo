@@ -84,7 +84,7 @@ gobang::PutState GobangBoard::Put(sf::Vector2i pos)
         if (pos.x >= item->pos.x - precision && pos.x <= item->pos.x + precision &&
             pos.y >= item->pos.y - precision && pos.y <= item->pos.y + precision)
         {
-            if (myChesspiece != gobang::NoChess && item->getType() == gobang::BlackChess ||
+            if ( (myChesspiece != gobang::NoChess && item->getType() == gobang::BlackChess) ||
                 item->getType() == gobang::WhiteChess)
                 return gobang::PutFail;
             item->setType(myChesspiece);

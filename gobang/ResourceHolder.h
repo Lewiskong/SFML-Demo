@@ -11,7 +11,7 @@ class ResourceHolder
 {
 public:
     ResourceHolder();
-    static enum class ResourceId
+    enum class ResourceId
     {
         RESOURCE_CHESSBOARD,
         RESOURCE_WHITE_CHESS,
