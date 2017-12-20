@@ -106,10 +106,12 @@ bool GobangBoard::CheckWin(int index) {
         int tmp1 = index - delta, tmp2 = index + delta;
         while (tmp1 >= int(min)) {
             if (points[tmp1]->getType() == color) cnt++;
+            else break;
             tmp1 -= delta;
         }
         while (tmp2 < int(max)) {
             if (points[tmp2]->getType() == color) cnt++;
+            else break;
             tmp2 += delta;
         }
         return cnt>=5;
