@@ -9,14 +9,14 @@ void GobangBoard::Init() {
     lines.clear();
     points.clear();
 
-    // 初始化棋盘
+    /// 初始化棋盘
     bg.setTexture(holder.GetTexture(ResourceHolder::ResourceId::RESOURCE_CHESSBOARD));
 
-    // 初始化线条
+    /// 初始化线条
     auto width = endPoint.x - startPoint.x - 2 * paddingLeft;
     auto height = endPoint.y - startPoint.y - 2 * paddingTop;
     // 横线
-    float lineThick = 5.f;
+    float lineThick = 4.f;
     for (size_t index = 0; index <= row; index++)
     {
         auto p1 = sf::Vector2f(startPoint.x + paddingLeft, startPoint.y + index * height / row + paddingTop - lineThick / 2);
@@ -45,7 +45,7 @@ void GobangBoard::Init() {
         lines.push_back(sf::Vertex(p4,sf::Color::Black));
     }
 
-    // 初始化棋子结构
+    /// 初始化棋子结构
     int index=0;
     for (size_t i=0;i<=row;i++)
     {
