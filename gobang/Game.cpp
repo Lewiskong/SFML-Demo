@@ -1,5 +1,8 @@
 #include "Game.h"
+
 #include <iostream>
+#include <string>
+#include <sstream>
 
 Game::Game():window(sf::VideoMode(860,860),"Gobang Game"),board(16,16,holder)
 {
@@ -12,6 +15,71 @@ Game::Game():window(sf::VideoMode(860,860),"Gobang Game"),board(16,16,holder)
     board.Init();
 
     InitGame();
+
+    // 初始化网络模块
+    auto netThread = isServer ? std::unique_ptr<std::thread>(new std::thread(&Game::dataInteractServer, this)):
+                                std::unique_ptr<std::thread>(new std::thread(&Game::dataInteractClient, this));
+    net=std::move(netThread);
+    net->detach();
+}
+
+void Game::dataInteractServer()
+{
+    sf::TcpListener listener;
+
+    auto port = 34567;
+
+    if (listener.listen(port)!=sf::Socket::Done)
+    {
+        std::cerr<<"port "<<port<<" has been used!"<<std::endl;
+        exit(1);
+    }
+
+    if (listener.accept(socket)!=sf::Socket::Done)
+    {
+        std::cerr<<"Tcp accept failed."<<std::endl;
+        exit(1);
+    }
+    std::cout<<"connect success"<<std::endl;
+    while (true)
+    {
+        sf::Packet packet;
+        if (socket.receive(packet)!=sf::Socket::Done) break;
+        std::string msg;
+        packet>>msg;
+        std::cout<<msg<<std::endl;
+        handleMessage();
+    }
+
+}
+
+void Game::dataInteractClient() {
+    auto port = 34567;
+    if (socket.connect("localhost", port) != sf::Socket::Done)
+    {
+        std::cerr<<"Tcp connect failed."<<std::endl;
+        exit(1);
+    }
+    std::cout<<"connect success"<<std::endl;
+    while (true)
+    {
+        sf::Packet packet;
+        if (socket.receive(packet)!=sf::Socket::Done) break;
+        std::string msg;
+        packet>>msg;
+        std::cout<<msg<<std::endl;
+        handleMessage();
+    }
+}
+
+void Game::handleMessage()
+{
+    hasChessPower.lock();
+
+    // 处理消息
+
+
+    hasChessPower.unlock();
 }
 
 void Game::Run()
@@ -66,7 +134,11 @@ void Game::InitGame() {
 
 void Game::PutChessPiece(sf::Vector2i pos) {
     auto ret = board.Put(pos);
-
+    sf::Packet packet;
+    std::stringstream ss;
+    ss<<"接收到对面下子位置: "<<pos.x<<","<<pos.y<<".";
+    packet<<ss.str();
+    socket.send(packet);
     switch (ret)
     {
         case gobang::Win:
