@@ -4,6 +4,8 @@ project(sfml_learn)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SFML_HEADER_PATH "/usr/local/lib/SFML-2.4.2/include")
+
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2")
 set(SFML_LIB_PATH "/usr/local/lib/SFML-2.4.2/build/lib")
 

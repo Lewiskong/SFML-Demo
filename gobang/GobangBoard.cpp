@@ -75,7 +75,7 @@ void GobangBoard::setPadding(float paddingTop, float paddingLeft) {
     Init();
 }
 
-gobang::PutState GobangBoard::Put(sf::Vector2i pos)
+gobang::PutState GobangBoard::Put(sf::Vector2i pos,gobang::ChessType type)
 {
     // 下子精度
     float precision = 15.f;
@@ -87,7 +87,7 @@ gobang::PutState GobangBoard::Put(sf::Vector2i pos)
             if ( (myChesspiece != gobang::NoChess && item->getType() == gobang::BlackChess) ||
                 item->getType() == gobang::WhiteChess)
                 return gobang::PutFail;
-            item->setType(myChesspiece);
+            item->setType(type);
             if (CheckWin(item->index)) return gobang::Win;
             return gobang::PutSucceed;
         }

@@ -52,7 +52,7 @@ public:
     void setRect(sf::Vector2f start,sf::Vector2f end);
     void setPadding(float paddingTop,float paddingLeft=0.f);
 
-    gobang::PutState Put(sf::Vector2i pos);
+    gobang::PutState Put(sf::Vector2i pos,gobang::ChessType type);
 
     gobang::ChessType myChesspiece;
 

@@ -21,6 +21,8 @@ Game::Game():window(sf::VideoMode(860,860),"Gobang Game"),board(16,16,holder)
                                 std::unique_ptr<std::thread>(new std::thread(&Game::dataInteractClient, this));
     net=std::move(netThread);
     net->detach();
+
+    isMyTurn=isServer;
 }
 
 void Game::dataInteractServer()
@@ -48,7 +50,11 @@ void Game::dataInteractServer()
         std::string msg;
         packet>>msg;
         std::cout<<msg<<std::endl;
-        handleMessage();
+
+        Message m;
+        m.parse(msg);
+
+        handleMessage(m);
     }
 
 }
@@ -68,23 +74,44 @@ void Game::dataInteractClient() {
         std::string msg;
         packet>>msg;
         std::cout<<msg<<std::endl;
-        handleMessage();
+
+        Message m;
+        m.parse(msg);
+
+        handleMessage(m);
     }
 }
 
-void Game::handleMessage()
+void Game::handleMessage(const Message &m)
 {
     hasChessPower.lock();
 
     // 处理消息
-
+    switch (m.cmd)
+    {
+        case Message::CMD_PUT_CHESS:
+            if (!isMyTurn)
+            {
+                // 下子
+                gobang::ChessType  tp = isServer?gobang::WhiteChess:gobang::BlackChess;
+                board.Put(sf::Vector2i(m.x,m.y),tp);
+                isMyTurn=!isMyTurn;
+            }
+            break;
+        case Message::CMD_GIVE_UP:
+            break;
+        case Message::CMD_REGRET:
+            break;
+        default:
+            break;
+    }
 
     hasChessPower.unlock();
 }
 
 void Game::Run()
 {
-    board.myChesspiece = gobang::BlackChess;
+    board.myChesspiece = isServer?gobang::BlackChess:gobang::WhiteChess;
     window.setFramerateLimit(30);
     while (window.isOpen())
     {
@@ -133,28 +160,35 @@ void Game::InitGame() {
 
 
 void Game::PutChessPiece(sf::Vector2i pos) {
-    auto ret = board.Put(pos);
-    sf::Packet packet;
-    std::stringstream ss;
-    ss<<"接收到对面下子位置: "<<pos.x<<","<<pos.y<<".";
-    packet<<ss.str();
-    socket.send(packet);
+
+    if (!isMyTurn) return;
+
+    hasChessPower.lock();
+    auto ret = board.Put(pos,board.myChesspiece);
+
+
     switch (ret)
     {
-        case gobang::Win:
-            exit(1);
-            break;
-        case gobang::PutSucceed:
-            // 更换棋子颜色
-            if (board.myChesspiece == gobang::BlackChess) board.myChesspiece = gobang::WhiteChess;
-            else board.myChesspiece=gobang::BlackChess;
-
-            break;
         case gobang::PutFail:
             break;
-        default:
+        case gobang::Win:
+            exit(1);
+        case gobang::PutSucceed:
+            // 同步消息
+            sf::Packet packet;
+            Message m;
+            m.cmd = Message::CMD_PUT_CHESS;
+            m.x = pos.x;
+            m.y = pos.y;
+            packet<<m.toString();
+            socket.send(packet);
+
+            // 更换走子玩家
+            isMyTurn=!isMyTurn;
             break;
     }
+
+    hasChessPower.unlock();
 
 }
 
