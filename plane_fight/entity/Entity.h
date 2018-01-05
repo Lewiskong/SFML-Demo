@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 
+// 抽象游戏实体
 class Entity
 {
 public:

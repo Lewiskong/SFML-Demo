@@ -53,18 +53,25 @@ include_directories(${SFML_HEADER_PATH})
 #        ${SFML_LIB_PATH}/libsfml-network.2.4.2.dylib)  #
 #########################################################
 
-set(PLANE_FIGHT_SOURCE_FILES
-        plane_fight/main.cpp
-        plane_fight/Game.cpp
-        plane_fight/entity/Entity.cpp
-        plane_fight/entity/Plane.cpp)
-add_executable(pfgame ${PLANE_FIGHT_SOURCE_FILES})
-target_link_libraries(pfgame
+#set(PLANE_FIGHT_SOURCE_FILES
+#        plane_fight/main.cpp
+#        plane_fight/Game.cpp
+#        plane_fight/entity/Entity.cpp
+#        plane_fight/entity/Plane.cpp)
+#add_executable(pfgame ${PLANE_FIGHT_SOURCE_FILES})
+#target_link_libraries(pfgame
+#        ${SFML_LIB_PATH}/libsfml-window.2.4.2.dylib
+#        ${SFML_LIB_PATH}/libsfml-system.2.4.2.dylib
+#        ${SFML_LIB_PATH}/libsfml-graphics.2.4.2.dylib
+#        ${SFML_LIB_PATH}/libsfml-audio.2.4.2.dylib)
+
+
+set(AIRCRAFT_SOURCE_FILES
+        aircraft/World.cpp)
+add_executable(aircraft ${AIRCRAFT_SOURCE_FILES})
+target_link_libraries(aircraft
         ${SFML_LIB_PATH}/libsfml-window.2.4.2.dylib
         ${SFML_LIB_PATH}/libsfml-system.2.4.2.dylib
         ${SFML_LIB_PATH}/libsfml-graphics.2.4.2.dylib
         ${SFML_LIB_PATH}/libsfml-audio.2.4.2.dylib)
-
-
-
 
