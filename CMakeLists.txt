@@ -67,7 +67,11 @@ include_directories(${SFML_HEADER_PATH})
 
 
 set(AIRCRAFT_SOURCE_FILES
-        aircraft/World.cpp)
+        aircraft/World.cpp
+        aircraft/ResourceHolder.cpp
+        aircraft/entity/SceneNode.cpp
+        aircraft/entity/Entity.cpp
+        aircraft/entity/Plane.cpp)
 add_executable(aircraft ${AIRCRAFT_SOURCE_FILES})
 target_link_libraries(aircraft
         ${SFML_LIB_PATH}/libsfml-window.2.4.2.dylib
