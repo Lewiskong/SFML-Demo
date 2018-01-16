@@ -13,7 +13,8 @@ class Plane: public Entity
 public:
     enum Type {
         DaHuangFeng,
-        LeiDian
+        LeiDian,
+        EternalTranquil
     };
 
 public:

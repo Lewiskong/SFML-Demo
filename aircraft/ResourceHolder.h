@@ -14,7 +14,8 @@ public:
     enum class ResourceId
     {
         RESOURCE_DA_HUANG_FENG,
-        RESOURCE_LEI_DIAN
+        RESOURCE_LEI_DIAN,
+        RESOURCE_ETERNAL_TRANQUIL
     };
 
     void LoadTexture(ResourceHolder::ResourceId id , const std::string &name);

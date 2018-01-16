@@ -17,6 +17,8 @@ ResourceHolder::ResourceId Plane::toResourceId(Plane::Type type) {
             return ResourceHolder::ResourceId::RESOURCE_DA_HUANG_FENG;
         case Plane::Type::LeiDian:
             return ResourceHolder::ResourceId::RESOURCE_LEI_DIAN;
+        case Plane::Type::EternalTranquil:
+            return ResourceHolder::ResourceId::RESOURCE_ETERNAL_TRANQUIL;
         default:
             exit(1);
     }
